@@ -57,13 +57,13 @@
                     <td><%= user.name %></td>
                     <td><%= user.email %></td>
                     <td>
-                        <button class="btn btn-primary">Modifier</button>
-                        <button class="btn btn-danger">Supprimer</button>
+                        <button class="btn btn-primary">Detail</button>
+                        <button class="btn btn-warning">Modifier</button>
+                        <button class="btn btn-danger" onclick="confirmDeleteUser(event)">Supprimer</button>
                     </td>
                 </tr>
             <% }); %>
         </table>
-
         <hr>
 
     </div> <!-- /container -->
@@ -73,6 +73,39 @@
 <footer class="container">
     <p>&copy; Company ECE 2023</p>
 </footer>
+<script>
+    document.getElementById('deleteButton').addEventListener('click', function(ev) {
+
+    });
+
+    function confirmDeleteUser(ev){
+        if (confirm('Voulez-vous vraiment supprimer cet utilisateur ?')) {
+            action = ev.target.parentNode
+            userId = action.parentNode.firstElementChild.textContent;
+            console.log(userId)
+            deleteUser(userId);
+        }
+    }
+    function deleteUser(userId) {
+        fetch(`http://localhost:3000/users/${userId}`, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                if (response.status === 204) {
+                    location.reload(); // Actualiser la page
+                } else if (response.status === 404) {
+                    alert('Utilisateur non trouvé.');
+                } else {
+                    alert('Une erreur s\'est produite lors de la suppression de l\'utilisateur.');
+                }
+            })
+            .catch(error => {
+                console.error('Une erreur s\'est produite lors de la requête :', error);
+                alert('Une erreur s\'est produite lors de la requête.');
+            });
+    }
+
+</script>
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
