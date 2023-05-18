@@ -21,7 +21,7 @@
 <body>
 
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="#">Accueil</a>
+    <a class="navbar-brand" href="/users">Accueil</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -34,7 +34,7 @@
         <div class="container">
             <h1 class="display-3">Bonjour à tous!</h1>
             <p>Application API utilisateur avec la fonctionnalité utilisateur CRUD</p>
-            <p><a class="btn btn-primary btn-lg" href="#" role="button">Créer un utilisateur</a></p>
+            <p><a class="btn btn-primary btn-lg" href="/users/new" role="button">Créer un utilisateur</a></p>
         </div>
     </div>
 
@@ -54,11 +54,10 @@
                 <tr>
                     <td><%= user.id %></td>
                     <td><%= user.name %></td>
-                    <td><%= user.name %></td>
+                    <td><%= user.prenom %></td>
                     <td><%= user.email %></td>
                     <td>
-                        <button class="btn btn-primary">Detail</button>
-                        <button class="btn btn-warning">Modifier</button>
+                        <a href="/users/show/<%= user.id %>" class="btn btn-warning">Modifier</a>
                         <button class="btn btn-danger" onclick="confirmDeleteUser(event)">Supprimer</button>
                     </td>
                 </tr>

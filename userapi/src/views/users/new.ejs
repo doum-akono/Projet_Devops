@@ -1,0 +1,109 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Jumbotron Template for Bootstrap</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/jumbotron/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="https://getbootstrap.com/docs/4.0/examples/jumbotron/jumbotron.css" rel="stylesheet">
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="/users">Accueil</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</nav>
+
+<main role="main">
+    <div class="container">
+
+       <div class="card" style="margin-top: 70px">
+          <div class="card-body">
+              <% if (updated === 1) { %>
+                  <h5 class="card-title">Modifier un utilisateur</h5>
+              <%} else { %>
+                      <h5 class="card-title">Ajouter un utilisateur</h5>
+              <% } %>
+              <form id="userForm" class="mt-4" style="margin-top: 90px">
+                  <div class="form-group">
+                      <label for="name">Nom</label>
+                      <input type="text" name="name" class="form-control" id="name" required placeholder="Nom" value="<% if (typeof user !== 'undefined') { %><%= user.name %><% } %>">
+                  </div>
+                  <div class="form-group">
+                      <label for="firstname">Prénom</label>
+                      <input type="text" name="prenom" class="form-control" id="firstname" required placeholder="Prénom" value="<% if (typeof user !== 'undefined') { %><%= user.prenom %><% } %>">
+
+                  </div>
+                  <div class="form-group">
+                      <label for="email">Email address</label>
+                      <input type="email" class="form-control" id="email" name="email" required placeholder="Email" value="<% if (typeof user !== 'undefined') { %><%= user.email %><% } %>">
+                  </div>
+                  <% if (updated === 1) { %>
+                      <button type="submit" class="btn btn-primary">Modifier</button>
+                  <%} else { %>
+                      <button type="submit" class="btn btn-primary">Enregistrer</button>
+                  <% } %>
+              </form>
+          </div>
+       </div>
+        <hr>
+
+    </div> <!-- /container -->
+
+</main>
+
+<footer class="container">
+    <p>&copy; Company ECE 2023</p>
+</footer>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script>
+    document.getElementById('userForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Empêcher le comportement par défaut du formulaire
+
+        const form = event.target;
+        const formData = new FormData(form);
+
+        fetch('http://localhost:3000/users/new', {
+            method: 'POST',
+            body: JSON.stringify(Object.fromEntries(formData)),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                if (response.status === 201) {
+                    alert('Utilisateur ajouté avec succès !');
+                    form.reset(); // Réinitialiser le formulaire après l'ajout
+                    window.location.href = 'http://localhost:3000/users'; // Rediriger vers la liste des utilisateurs
+                } else {
+                    alert('Une erreur s\'est produite lors de l\'ajout de l\'utilisateur.');
+                }
+            })
+            .catch(error => {
+                console.error('Une erreur s\'est produite lors de la requête :', error);
+                alert('Une erreur s\'est produite lors de la requête.');
+            });
+    });
+
+</script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"><\/script>')</script>
+<script src="https://getbootstrap.com/docs/4.0/assets/js/vendor/popper.min.js"></script>
+<script src="https://getbootstrap.com/docs/4.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
