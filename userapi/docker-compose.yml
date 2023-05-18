@@ -1,0 +1,20 @@
+version: '3'
+services:
+  app:
+    image: lydiediana/userapi
+    ports:
+      - 3000:3000
+    environment:
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_DATABASE=userapi
+    depends_on:
+      - db
+  db:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=userapi
+    volumes:
+      - ./data:/var/lib/mysql
